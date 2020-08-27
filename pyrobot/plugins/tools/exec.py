@@ -4,26 +4,26 @@ Syntax: .exec Code"""
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pyrogram import Client, Filters
 
 import asyncio
 import os
 import time
-
+from pyrogram import Client, filters
 from pyrobot import MAX_MESSAGE_LENGTH, COMMAND_HAND_LER
+from pyrobot.helper_functions.cust_p_filters import sudo_filter
 
 
-@Client.on_message(Filters.command("exec", COMMAND_HAND_LER)  & Filters.me)
-async def execution(client, message):
-    DELAY_BETWEEN_EDITS = 0.3
-    PROCESS_RUN_TIME = 100
+@Client.on_message(filters.command("exec", COMMAND_HAND_LER) & sudo_filter)
+async def execution(_, message):
+    # DELAY_BETWEEN_EDITS = 0.3
+    # PROCESS_RUN_TIME = 100
     cmd = message.text.split(" ", maxsplit=1)[1]
 
     reply_to_id = message.message_id
     if message.reply_to_message:
         reply_to_id = message.reply_to_message.message_id
 
-    start_time = time.time() + PROCESS_RUN_TIME
+    # start_time = time.time() + PROCESS_RUN_TIME
     process = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
@@ -33,23 +33,23 @@ async def execution(client, message):
         e = "No Error"
     o = stdout.decode()
     if not o:
-        o = "**Tip**: \n`If you want to see the results of your code, I suggest printing them to stdout.`"
-    else:
-        _o = o.split("\n")
-        o = "`\n".join(_o)
-    OUTPUT = f"**QUERY:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{o}"
+        o = "No Output"
+    
+    OUTPUT = ""
+    OUTPUT += f"<b>QUERY:</b>\n<u>Command:</u>\n<code>{cmd}</code> \n"
+    OUTPUT += f"<u>PID</u>: <code>{process.pid}</code>\n\n"
+    OUTPUT += f"<b>stderr</b>: \n<code>{e}</code>\n\n"
+    OUTPUT += f"<b>stdout</b>: \n<code>{o}</code>"
 
     if len(OUTPUT) > MAX_MESSAGE_LENGTH:
         with open("exec.text", "w+", encoding="utf8") as out_file:
             out_file.write(str(OUTPUT))
-        await client.send_document(
-            chat_id=message.chat.id,
+        await message.reply_document(
             document="exec.text",
             caption=cmd,
             disable_notification=True,
             reply_to_message_id=reply_to_id
         )
         os.remove("exec.text")
-        await message.delete()
     else:
-        await message.edit(OUTPUT)
+        await message.reply_text(OUTPUT)

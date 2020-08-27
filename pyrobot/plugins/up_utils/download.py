@@ -1,29 +1,39 @@
 """Download Telegram Media
 Syntax: .download"""
 
-from pyrogram import Client, Filters
-
 import asyncio
 import math
 import os
 import time
 from datetime import datetime
 from pySmartDL import SmartDL
+from pyrogram import Client, filters
+from pyrobot import (
+    COMMAND_HAND_LER,
+    LOGGER,
+    TMP_DOWNLOAD_DIRECTORY
+)
+from pyrobot.helper_functions.display_progress_dl_up import (
+    progress_for_pyrogram,
+    humanbytes
+)
+from pyrobot.helper_functions.cust_p_filters import sudo_filter
 
-from pyrobot import COMMAND_HAND_LER, TMP_DOWNLOAD_DIRECTORY
-from pyrobot.helper_functions.display_progress_dl_up import progress_for_pyrogram, humanbytes
 
-
-@Client.on_message(Filters.command("download", COMMAND_HAND_LER)  & Filters.me)
-async def down_load_media(client, message):
+@Client.on_message(
+    filters.command("download", COMMAND_HAND_LER) &
+    sudo_filter
+)
+async def down_load_media(client, sms):
+    message = await sms.reply_text("...", quote=True)
     if not os.path.isdir(TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TMP_DOWNLOAD_DIRECTORY)
-    if message.reply_to_message is not None:
+    if sms.reply_to_message is not None:
         start_t = datetime.now()
         download_location = TMP_DOWNLOAD_DIRECTORY + "/"
         c_time = time.time()
         the_real_download_location = await client.download_media(
-            message=message.reply_to_message,
+            message=sms.reply_to_message,
             file_name=download_location,
             progress=progress_for_pyrogram,
             progress_args=(
@@ -32,10 +42,10 @@ async def down_load_media(client, message):
         )
         end_t = datetime.now()
         ms = (end_t - start_t).seconds
-        await message.edit(f"Downloaded to `{the_real_download_location}` in {ms} seconds")
-    elif len(message.command) > 1:
+        await message.edit(f"Downloaded to <code>{the_real_download_location}</code> in <u>{ms}</u> seconds")
+    elif len(sms.command) > 1:
         start_t = datetime.now()
-        the_url_parts = " ".join(message.command[1:])
+        the_url_parts = " ".join(sms.command[1:])
         url = the_url_parts.strip()
         custom_file_name = os.path.basename(url)
         if "|" in the_url_parts:
@@ -75,11 +85,11 @@ async def down_load_media(client, message):
                     display_message = current_message
                     await asyncio.sleep(10)
             except Exception as e:
-                logger.info(str(e))
+                LOGGER.info(str(e))
                 pass
         if os.path.exists(download_file_path):
             end_t = datetime.now()
             ms = (end_t - start_t).seconds
-            await message.edit(f"Downloaded to `{download_file_path}` in {ms} seconds")
+            await message.edit(f"Downloaded to <code>{download_file_path}</code> in <u>{ms}</u> seconds")
     else:
         await message.edit("Reply to a Telegram Media, to download it to local server.")

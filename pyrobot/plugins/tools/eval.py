@@ -4,21 +4,18 @@ Syntax: .eval PythonCode"""
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pyrogram import Client, Filters
-
-import asyncio
-import inspect
 import io
 import os
 import sys
 import traceback
-
+from pyrogram import Client, filters
 from pyrobot import MAX_MESSAGE_LENGTH, COMMAND_HAND_LER
+from pyrobot.helper_functions.cust_p_filters import sudo_filter
 
 
-@Client.on_message(Filters.command("eval", COMMAND_HAND_LER)  & Filters.me)
+@Client.on_message(filters.command("eval", COMMAND_HAND_LER) & sudo_filter)
 async def eval(client, message):
-    await message.edit("Processing ...")
+    status_message = await message.reply_text("Processing ...")
     cmd = message.text.split(" ", maxsplit=1)[1]
 
     reply_to_id = message.message_id
@@ -51,22 +48,24 @@ async def eval(client, message):
     else:
         evaluation = "Success"
 
-    final_output = "**EVAL**: ```{}```\n\n**OUTPUT**:\n```{}``` \n".format(cmd, evaluation.strip())
+    final_output = "<b>EVAL</b>: <code>{}</code>\n\n<b>OUTPUT</b>:\n<code>{}</code> \n".format(
+        cmd,
+        evaluation.strip()
+    )
 
     if len(final_output) > MAX_MESSAGE_LENGTH:
         with open("eval.text", "w+", encoding="utf8") as out_file:
             out_file.write(str(final_output))
-        await client.send_document(
-            chat_id=message.chat.id,
+        await message.reply_document(
             document="eval.text",
             caption=cmd,
             disable_notification=True,
             reply_to_message_id=reply_to_id
         )
         os.remove("eval.text")
-        await message.delete()
+        await status_message.delete()
     else:
-        await message.edit(final_output)
+        await status_message.edit(final_output)
 
 
 async def aexec(code, client, message):

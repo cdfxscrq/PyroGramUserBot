@@ -1,23 +1,27 @@
-"""Update UserBot code
+"""Update User / Bot code
 Syntax: .update"""
 
-from pyrogram import Client, Filters
-
 import asyncio
-import git
 import os
-
-from pyrobot import MAX_MESSAGE_LENGTH, COMMAND_HAND_LER, HEROKU_API_KEY, OFFICIAL_UPSTREAM_REPO
-
+import git
+from pyrogram import Client, filters
+from pyrobot import (
+    COMMAND_HAND_LER,
+    HEROKU_API_KEY,
+    LOGGER,
+    MAX_MESSAGE_LENGTH,
+    OFFICIAL_UPSTREAM_REPO
+)
+from pyrobot.helper_functions.cust_p_filters import sudo_filter
 
 # -- Constants -- #
 IS_SELECTED_DIFFERENT_BRANCH = (
     "looks like a custom branch {branch_name} "
-    "is being used:\n"
+    "is being used \n"
     "in this case, Updater is unable to identify the branch to be updated."
     "please check out to an official branch, and re-start the updater."
 )
-BOT_IS_UP_TO_DATE = "the userbot is up-to-date."
+BOT_IS_UP_TO_DATE = "the user / bot is up-to-date."
 NEW_BOT_UP_DATE_FOUND = (
     "new update found for {branch_name}\n"
     "chagelog: \n\n{changelog}\n"
@@ -36,12 +40,16 @@ RESTARTING_APP = "re-starting heroku application"
 # -- Constants End -- #
 
 
-@Client.on_message(Filters.command("update", COMMAND_HAND_LER)  & Filters.me)
+@Client.on_message(
+    filters.command("update", COMMAND_HAND_LER) &
+    sudo_filter
+)
 async def updater(client, message):
+    status_message = await message.reply_text("🤔😳😳🙄")
     try:
         repo = git.Repo()
-    except git.exc.InvalidGitRepositoryError as e:
-        print(e)
+    except git.exc.InvalidGitRepositoryError as error_one:
+        LOGGER.info(str(error_one))
         repo = git.Repo.init()
         origin = repo.create_remote(REPO_REMOTE_NAME, OFFICIAL_UPSTREAM_REPO)
         origin.fetch()
@@ -49,18 +57,17 @@ async def updater(client, message):
         repo.heads.master.checkout(True)
 
     active_branch_name = repo.active_branch.name
-    print(active_branch_name)
+    LOGGER.info(active_branch_name)
     if active_branch_name != IFFUCI_ACTIVE_BRANCH_NAME:
-        await message.edit(IS_SELECTED_DIFFERENT_BRANCH.format(
+        await status_message.edit(IS_SELECTED_DIFFERENT_BRANCH.format(
             branch_name=active_branch_name
         ))
         return False
 
     try:
         repo.create_remote(REPO_REMOTE_NAME, OFFICIAL_UPSTREAM_REPO)
-    except Exception as e:
-        print(e)
-        pass
+    except Exception as error_two:
+        LOGGER.info(str(error_two))
 
     tmp_upstream_remote = repo.remote(REPO_REMOTE_NAME)
     tmp_upstream_remote.fetch(active_branch_name)
@@ -72,9 +79,10 @@ async def updater(client, message):
             branch_name=active_branch_name
         )
     )
+    LOGGER.info(changelog)
 
     if not changelog:
-        await message.edit(BOT_IS_UP_TO_DATE)
+        await status_message.edit(BOT_IS_UP_TO_DATE)
         return False
 
     message_one = NEW_BOT_UP_DATE_FOUND.format(
@@ -88,8 +96,7 @@ async def updater(client, message):
     if len(message_one) > MAX_MESSAGE_LENGTH:
         with open("change.log", "w+", encoding="utf8") as out_file:
             out_file.write(str(message_one))
-        await client.send_document(
-            chat_id=message.chat.id,
+        await message.reply_document(
             document="change.log",
             caption=message_two,
             disable_notification=True,
@@ -120,23 +127,27 @@ async def updater(client, message):
                 remote.set_url(heroku_git_url)
             else:
                 remote = repo.create_remote("heroku", heroku_git_url)
-            remote.push(refspec=HEROKU_GIT_REF_SPEC)
+            remote.push(refspec=HEROKU_GIT_REF_SPEC, force=True)
         else:
             await message.reply(NO_HEROKU_APP_CFGD)
 
-    await message.edit(RESTARTING_APP)
+    await status_message.edit(RESTARTING_APP)
     # https://t.me/c/1387666944/94908
-    asyncio.get_event_loop().create_task(restart(client, message))
+    asyncio.get_event_loop().create_task(restart(client, status_message))
 
 
 def generate_change_log(git_repo, diff_marker):
     out_put_str = ""
     d_form = "%d/%m/%y"
     for repo_change in git_repo.iter_commits(diff_marker):
-        out_put_str += f"•[{repo_change.committed_datetime.strftime(d_form)}]: {repo_change.summary} <{repo_change.author}>\n"
+        out_put_str += f"•[{repo_change.committed_datetime.strftime(d_form)}]: "
+        out_put_str += f"{repo_change.summary} <{repo_change.author}>\n"
     return out_put_str
 
 
 async def restart(client, message):
     await client.restart()
-    await message.edit("restarted! do `.alive` to check if I am online?")
+    await message.edit(
+        "restarted! "
+        f"do `{COMMAND_HAND_LER}alive` to check if I am online?"
+    )
