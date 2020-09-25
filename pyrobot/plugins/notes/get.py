@@ -33,6 +33,8 @@ async def get_note_with_command(message, note_name):
         caption = note_message.caption
         if caption:
             caption = caption.html
+        if not caption:
+            caption = ""
         await n_m.reply_cached_media(
             file_id=file_id,
             caption=caption,
@@ -43,6 +45,8 @@ async def get_note_with_command(message, note_name):
         caption = note_message.text
         if caption:
             caption = caption.html
+        if not caption:
+            caption = ""
         disable_web_page_preview = True
         if "gra.ph" in caption or "youtu" in caption:
             disable_web_page_preview = False
@@ -55,7 +59,8 @@ async def get_note_with_command(message, note_name):
 
 
 @Client.on_message(
-    filters.command(["getnote", "get"], COMMAND_HAND_LER)
+    filters.command(["getnote", "get"], COMMAND_HAND_LER) &
+    filters.incoming
 )
 async def get_note(_, message):
     note_name = " ".join(message.command[1:])
@@ -63,7 +68,8 @@ async def get_note(_, message):
 
 
 @Client.on_message(
-    filters.regex(pattern=r"#(\w+)")
+    filters.regex(pattern=r"#(\w+)") &
+    filters.incoming
 )
 async def get_hash_tag_note(_, message):
     note_name = message.matches[0].group(1)
