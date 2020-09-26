@@ -1,12 +1,16 @@
 from pyrogram import (
-    Client,
     filters
+)
+from pyrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup
 )
 from pyrobot import (
     COMMAND_HAND_LER,
     DB_URI,
     TG_URI
 )
+from pyrobot.pyrobot import PyroBot
 from pyrobot.helper_functions.msg_types import (
     get_file_id
 )
@@ -69,6 +73,6 @@ async def get_note_with_command(message):
         sql.update_previous_welcome(message.chat.id, n_m.message_id)
 
 
-@Client.on_message(filters.new_chat_members)
+@PyroBot.on_message(filters.new_chat_members)
 async def new_welcome(_, message):
     await get_note_with_command(message)
