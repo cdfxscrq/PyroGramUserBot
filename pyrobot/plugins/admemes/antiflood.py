@@ -21,7 +21,10 @@ if DB_URI is not None:
 
 
 @Client.on_message(
-    filters.incoming,
+    (
+        filters.incoming &
+        ~filters.service
+    ),
     group=1
 )
 async def check_flood(client, message):
@@ -35,6 +38,9 @@ async def check_flood(client, message):
         return
     is_admin = await admin_check(message)
     if is_admin:
+        return
+    # copy @chathelp_bot bio here -_-
+    if not message.from_user:
         return
     should_ban = sql.update_flood(message.chat.id, message.from_user.id)
     if not should_ban:
