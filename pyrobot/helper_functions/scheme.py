@@ -17,7 +17,7 @@ from pyrobot import (
 async def fetch(scheme_url: str):
     async with aiohttp.ClientSession() as session:
         response = await session.get(scheme_url)
-        return await response.text()
+        return str.encode(await response.text())
 
 
 async def check_feed(client):
