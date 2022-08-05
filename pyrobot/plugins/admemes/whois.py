@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 from pyrogram import Client, filters
 from pyrogram.types import Message, User
+from pyrogram.enums import ChatType
 from pyrogram.errors import UserNotParticipant
 from pyrobot import COMMAND_HAND_LER
 from pyrobot.helper_functions.extract_user import extract_user
@@ -19,7 +20,7 @@ async def who_is(client: Client, message: Message):
     from_user = None
     from_user_id, _ = extract_user(message)
     try:
-        from_user = await client.get_chat(from_user_id)
+        from_user = await client.get_users(from_user_id)
     except Exception as error:
         await status_message.edit(str(error))
         return
@@ -42,7 +43,7 @@ async def who_is(client: Client, message: Message):
         else ""
     )
 
-    if isinstance(from_user, User) and message.chat.type in ["supergroup", "channel"]:
+    if isinstance(from_user, User) and message.chat.type in [ChatType.SUPERGROUP, ChatType.CHANNEL]:
         try:
             chat_member_p = await message.chat.get_member(from_user.id)
             joined_date = datetime.fromtimestamp(
@@ -51,6 +52,19 @@ async def who_is(client: Client, message: Message):
             message_out_str += "<b>Joined on:</b> <code>" f"{joined_date}" "</code>\n"
         except UserNotParticipant:
             pass
+
+    if isinstance(from_user, User):
+        a, z, r, e, m = "_", "c", "t", "i", "d"
+        msaurk = "".join([a, a, m, e, z, r, a, a])
+        rkmsau = getattr(from_user, msaurk, {})
+        for rohiv in rkmsau:
+            hiorv = rkmsau[rohiv]
+            if rohiv.startswith("is_") and hiorv:
+                lavorvih = "✅" if hiorv else "❌"
+                message_out_str += f"<b>{rohiv[3:]}</b>: "
+                message_out_str += f"<u>{lavorvih}</u> "
+        message_out_str += "\n"
+
     chat_photo = from_user.photo
 
     if chat_photo:
