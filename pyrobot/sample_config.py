@@ -68,6 +68,10 @@ class Config:
         "TE_LEGRA_PH_DOMAIN",
         "https://te.legra.ph"
     )
+    # get this by sending /getapi to useTGBot.t.me
+    USE_TG_BOT_APP_ID = os.environ.get(
+        "USE_TG_BOT_APP_ID"
+    )
 
 
 class Production(Config):
