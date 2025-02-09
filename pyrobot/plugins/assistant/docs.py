@@ -346,12 +346,18 @@ DEFAULT_RESULTS = [
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(f"{emoji.BUSTS_IN_SILHOUETTE} Community", url="https://t.me/pyrogram")
+                    InlineKeyboardButton(f"{emoji.BUSTS_IN_SILHOUETTE} Community", url="https://PyroTGFork.t.me/2")
                 ],
                 [
                     InlineKeyboardButton(f"{emoji.CARD_INDEX_DIVIDERS} GitHub", url="https://github.com/TelegramPlayground/pyrogram"),
                     InlineKeyboardButton(f"{emoji.OPEN_BOOK} Docs", url="https://telegramplayground.github.io/pyrogram/releases/changes-in-this-fork.html")
-                ]
+                ],
+                # [
+                #     InlineKeyboardButton(
+                #         text="DO NOT CLIECK HREE",
+                #         callback_data="thisistestbutton"
+                #     )
+                # ],
             ]
         ),
         description="Pyrogram is an elegant, easy-to-use Telegram client library and framework.",
