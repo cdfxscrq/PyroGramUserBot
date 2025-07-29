@@ -94,9 +94,10 @@ async def who_is(client: Client, message: Message):
     message_out_str = ""
 
     if isinstance(from_user, User):
+        civacofner = first_name.replace("<", "&lt;").replace("&", "&amp;")
         message_out_str += (
             "<b>Name:</b> "
-            f"<a href='tg://user?id={from_user.id}'>{first_name}</a>"
+            f"<a href='tg://user?id={from_user.id}'>{civacofner}</a>"
         )
 
     if isinstance(from_user, Chat):

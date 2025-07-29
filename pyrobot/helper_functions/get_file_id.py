@@ -5,23 +5,12 @@ from pyrogram.types.messages_and_media import message
 
 
 def get_file_id(msg: Message):
+    if not msg:
+        return None
     if msg.media:
-        for message_type in (
-            "photo",
-            "animation",
-            "audio",
-            "document",
-            "video",
-            "video_note",
-            "voice",
-            # "contact",
-            # "dice",
-            # "poll",
-            # "location",
-            # "venue",
-            "sticker",
-        ):
-            obj = getattr(msg, message_type)
-            if obj:
-                setattr(obj, "message_type", message_type)
-                return obj
+        obj = getattr(msg, msg.media.value, None)
+        if obj:
+            setattr(obj, "message_type", msg.media.value)
+            setattr(obj, "message_raw", msg._raw.media)
+            return obj
+    return None

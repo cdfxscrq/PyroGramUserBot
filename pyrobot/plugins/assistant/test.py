@@ -74,3 +74,11 @@ The last line of the expandable block quotation with the expandability mark
 async def _(client, callback_query):
     print(callback_query)
     await callback_query.answer()
+
+
+@Client.on_bot_business_connection()
+async def onbbc(client, business_connection):
+    await client.send_message(
+        business_connection.user_chat_id,
+        business_connection
+    )
