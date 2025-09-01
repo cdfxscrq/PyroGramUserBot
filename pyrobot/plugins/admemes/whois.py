@@ -5,7 +5,7 @@ from io import BytesIO
 from time import time
 from datetime import datetime
 from pyrogram import Client, filters
-from pyrogram.types import Message, User, Chat
+from pyrogram.types import Message, User, Chat, Audio
 from pyrogram.enums import ChatType
 from pyrogram.errors import UserNotParticipant
 from pyrobot import COMMAND_HAND_LER
@@ -13,7 +13,7 @@ from pyrobot.helper_functions.extract_user import extract_user
 from pyrobot.helper_functions.cust_p_filters import f_onw_fliter
 from pyrogram.raw.functions.users import GetFullUser
 from pyrogram.raw.functions.channels import GetFullChannel
-from pyrogram.raw.types import PhotoEmpty
+from pyrogram.raw.types import PhotoEmpty, DocumentAttributeAudio, DocumentAttributeFilename
 from pyrogram.file_id import FileId, FileType, ThumbnailSource
 from pyrogram.errors import (
     PeerIdInvalid,
@@ -134,6 +134,18 @@ async def who_is(client: Client, message: Message):
         message_out_str += (
             f"<b>Groups in Common:</b> <u>{full_user.common_chats_count}</u>\n"
         )
+
+    if getattr(full_user, "saved_music", None):
+        doc = full_user.saved_music
+        attributes = {type(i): i for i in doc.attributes}
+        file_name = getattr(
+            attributes.get(
+                DocumentAttributeFilename, None
+            ), "file_name", None
+        )
+        audio_attributes = attributes[DocumentAttributeAudio]
+        audio = Audio._parse(client, doc, audio_attributes, file_name)
+        message_out_str += f"{audio.duration} ▶️ {audio.title} {audio.performer}\n"
 
     if (
         isinstance(from_user, User) and
