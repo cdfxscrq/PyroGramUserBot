@@ -95,7 +95,7 @@ async def inline(_, query: InlineQuery):
                             url="https://telegramplayground.github.io/pyrogram/api/methods"
                         )
                     ]]),
-                    thumb_url=FIRE_THUMB,
+                    thumbnail_url=FIRE_THUMB,
                 )
             )
 
@@ -119,7 +119,7 @@ async def inline(_, query: InlineQuery):
                             url="https://telegramplayground.github.io/pyrogram/api/types"
                         )
                     ]]),
-                    thumb_url=FIRE_THUMB,
+                    thumbnail_url=FIRE_THUMB,
                 )
             )
 
@@ -143,7 +143,7 @@ async def inline(_, query: InlineQuery):
                             url="https://telegramplayground.github.io/pyrogram/api/bound-methods"
                         )]]
                     ),
-                    thumb_url=FIRE_THUMB,
+                    thumbnail_url=FIRE_THUMB,
                 )
             )
 
@@ -167,7 +167,7 @@ async def inline(_, query: InlineQuery):
                             url="https://telegramplayground.github.io/pyrogram/api/decorators"
                         )]]
                     ),
-                    thumb_url=FIRE_THUMB,
+                    thumbnail_url=FIRE_THUMB,
                 )
             )
 
@@ -191,7 +191,7 @@ async def inline(_, query: InlineQuery):
                             url="https://telegramplayground.github.io/pyrogram/api/filters"
                         )
                     ]]),
-                    thumb_url=FIRE_THUMB,
+                    thumbnail_url=FIRE_THUMB,
                 )
             )
 
@@ -220,7 +220,7 @@ async def inline(_, query: InlineQuery):
                             url="https://github.com/pyrogram/pyrogram/blob/develop/compiler/api/source/main_api.tl"
                         ),
                     ]]),
-                    thumb_url=FIRE_THUMB,
+                    thumbnail_url=FIRE_THUMB,
                 )
             )
 
@@ -249,7 +249,7 @@ async def inline(_, query: InlineQuery):
                             url="https://github.com/pyrogram/pyrogram/blob/develop/compiler/api/source/main_api.tl",
                         ),
                     ]]),
-                    thumb_url=FIRE_THUMB,
+                    thumbnail_url=FIRE_THUMB,
                 )
             )
 
@@ -264,7 +264,7 @@ async def inline(_, query: InlineQuery):
                     title="Chat Rules",
                     description="These are the rules for the Pyrogram Inn and the chats for other languages.",
                     input_message_content=InputTextMessageContent(docs.rules),
-                    thumb_url=FIRE_THUMB,
+                    thumbnail_url=FIRE_THUMB,
                 )
             )
 
@@ -277,7 +277,7 @@ async def inline(_, query: InlineQuery):
             results.append(
                 InlineQueryResultPhoto(
                     photo_url="https://i.imgur.com/f32hngs.jpg",
-                    # thumb_url="https://i.imgur.com/f32hngs.jpg",
+                    # thumbnail_url="https://i.imgur.com/f32hngs.jpg",
                     title="You found the secret Sharkception :O",
                     description="You might not get anything from it, but you can feel proud to have found me!",
                     caption=f"Hey, I found @ColinShark {emoji.SHARK}",
@@ -353,7 +353,7 @@ async def inline(_, query: InlineQuery):
                 last_name="SUPPort",
                 # vcard="",
                 # reply_markup=
-                thumb_url="https://mediaflare.adasin.workers.dev/dl/CDVlj6R"
+                thumbnail_url="https://mediaflare.adasin.workers.dev/dl/CDVlj6R"
             )
         )
         # results.append(

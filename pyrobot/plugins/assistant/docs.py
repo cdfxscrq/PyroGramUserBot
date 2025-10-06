@@ -76,7 +76,7 @@ class Result:
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
-                thumb_url=cls.THUMB,
+                thumbnail_url=cls.THUMB,
             )
 
     class Decorator:
@@ -100,7 +100,7 @@ class Result:
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
-                thumb_url=cls.THUMB,
+                thumbnail_url=cls.THUMB,
             )
 
     class Type:
@@ -124,7 +124,7 @@ class Result:
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
-                thumb_url=cls.THUMB,
+                thumbnail_url=cls.THUMB,
             )
 
     class Filter:
@@ -145,7 +145,7 @@ class Result:
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
-                thumb_url=cls.THUMB,
+                thumbnail_url=cls.THUMB,
             )
 
     class BoundMethod:
@@ -167,7 +167,7 @@ class Result:
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
-                thumb_url=cls.THUMB,
+                thumbnail_url=cls.THUMB,
             )
 
     class RawMethod:
@@ -192,7 +192,7 @@ class Result:
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
-                thumb_url=cls.THUMB,
+                thumbnail_url=cls.THUMB,
             )
 
     class RawType:
@@ -217,7 +217,7 @@ class Result:
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
-                thumb_url=cls.THUMB,
+                thumbnail_url=cls.THUMB,
             )
 
 
@@ -361,7 +361,7 @@ DEFAULT_RESULTS = [
             ]
         ),
         description="Pyrogram is an elegant, easy-to-use Telegram client library and framework.",
-        thumb_url=FIRE_THUMB,
+        thumbnail_url=FIRE_THUMB,
     ),
     InlineQueryResultArticle(
         title="About this Bot",
@@ -383,7 +383,7 @@ DEFAULT_RESULTS = [
             )
         ]]),
         description="How to use Pyrogram Assistant Bot.",
-        thumb_url=ABOUT_BOT_THUMB,
+        thumbnail_url=ABOUT_BOT_THUMB,
     ),
     InlineQueryResultArticle(
         title="Quick Start",
@@ -397,7 +397,7 @@ DEFAULT_RESULTS = [
             parse_mode=ParseMode.MARKDOWN
         ),
         description="Quick overview to get you started as fast as possible.",
-        thumb_url=ROCKET_THUMB,
+        thumbnail_url=ROCKET_THUMB,
     ),
     InlineQueryResultArticle(
         title="Support",
@@ -411,7 +411,7 @@ DEFAULT_RESULTS = [
             parse_mode=ParseMode.MARKDOWN
         ),
         description="Ways to show your appreciation.",
-        thumb_url=RED_HEART_THUMB,
+        thumbnail_url=RED_HEART_THUMB,
     ),
 ]
 
@@ -441,7 +441,7 @@ RULES = [
             "**Pyrogram Rules**\n\n" + rule,
             parse_mode=ParseMode.MARKDOWN
         ),
-        thumb_url=SCROLL_THUMB,
+        thumbnail_url=SCROLL_THUMB,
     )
     for i, rule in enumerate(rules.split("\n")[3:-3])
 ]
