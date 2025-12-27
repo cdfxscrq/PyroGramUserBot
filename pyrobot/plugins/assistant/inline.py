@@ -43,7 +43,8 @@ from pyrogram.types import (
     InlineQueryResultVoice,
     InputTextMessageContent,
     InlineKeyboardButton,
-    InlineKeyboardMarkup
+    InlineKeyboardMarkup,
+    LinkPreviewOptions
 )
 
 from . import docs
@@ -263,7 +264,13 @@ async def inline(_, query: InlineQuery):
                 InlineQueryResultArticle(
                     title="Chat Rules",
                     description="These are the rules for the Pyrogram Inn and the chats for other languages.",
-                    input_message_content=InputTextMessageContent(docs.rules),
+                    input_message_content=InputTextMessageContent(
+                        docs.rules,
+                        link_preview_options=LinkPreviewOptions(
+                            url="https://telegramplayground.github.io/pyrogram/releases/changes-in-this-fork.html",
+                            show_above_text=True
+                        )
+                    ),
                     thumbnail_url=FIRE_THUMB,
                 )
             )
