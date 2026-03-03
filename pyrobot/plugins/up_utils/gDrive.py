@@ -10,6 +10,7 @@ from googleapiclient.http import MediaFileUpload
 from mimetypes import guess_type
 from oauth2client.client import OAuth2WebServerFlow
 from pyrogram import Client, filters
+from pyrogram.types import LinkPreviewOptions
 from pyrobot import (
     COMMAND_HAND_LER,
     DB_URI,
@@ -68,7 +69,9 @@ async def g_drive_commands(client, message):
                         message_string += "<i>Results</i>:\n"
                         message_string += await search_g_drive(creds, search_query)
                         await status_message.edit_text(
-                            text=message_string, disable_web_page_preview=True
+                            text=message_string, link_preview_options=LinkPreviewOptions(
+                                is_disabled=True
+                            )
                         )
                     else:
                         await status_message.edit_text(
@@ -117,7 +120,9 @@ async def g_drive_commands(client, message):
                         else:
                             reply_message_text += "failed to upload.. check logs?"
                         await status_message.edit_text(
-                            text=reply_message_text, disable_web_page_preview=True
+                            text=reply_message_text, link_preview_options=LinkPreviewOptions(
+                                is_disabled=True
+                            )
                         )
                     elif message.reply_to_message is not None:
                         if not os.path.isdir(TMP_DOWNLOAD_DIRECTORY):
@@ -153,7 +158,9 @@ async def g_drive_commands(client, message):
                             reply_message_text += "failed to upload.. check logs?"
                         os.remove(the_real_download_location)
                         await status_message.edit_text(
-                            text=reply_message_text, disable_web_page_preview=True
+                            text=reply_message_text, link_preview_options=LinkPreviewOptions(
+                                is_disabled=True
+                            )
                         )
                     else:
                         await status_message.edit_text(
@@ -203,7 +210,12 @@ async def g_drive_setup(message):
             reply_string += (
                 f"<code>{COMMAND_HAND_LER}gdrive confirm (RECEIVED_CODE)</code>"
             )
-            await message.edit_text(text=reply_string, disable_web_page_preview=True)
+            await message.edit_text(
+                text=reply_string,
+                link_preview_options=LinkPreviewOptions(
+                    is_disabled=True
+                )
+            )
     else:
         await message.edit_text(text="don't type this command -_-")
 

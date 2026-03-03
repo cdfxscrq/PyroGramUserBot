@@ -8,6 +8,7 @@ import time
 from datetime import datetime
 from pySmartDL import SmartDL
 from pyrogram import Client, filters
+from pyrogram.types import LinkPreviewOptions
 from pyrobot import COMMAND_HAND_LER, LOGGER, TMP_DOWNLOAD_DIRECTORY
 from pyrobot.helper_functions.display_progress_dl_up import (
     progress_for_pyrogram,
@@ -75,7 +76,10 @@ async def down_load_media(client, sms):
                 current_message += f"ETA: {estimated_total_time}"
                 if round(diff % 10.00) == 0 and current_message != display_message:
                     await message.edit(
-                        disable_web_page_preview=True, text=current_message
+                        text=current_message,
+                        link_preview_options=LinkPreviewOptions(
+                            is_disabled=True
+                        )
                     )
                     display_message = current_message
                     await asyncio.sleep(10)

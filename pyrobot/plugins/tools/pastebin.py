@@ -15,7 +15,7 @@ from json.decoder import JSONDecodeError
 import os
 from urllib.parse import urlparse
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, LinkPreviewOptions
 from pyrobot import COMMAND_HAND_LER, TMP_DOWNLOAD_DIRECTORY, paste_bin_store_s
 
 
@@ -115,5 +115,7 @@ async def paste_bin(client: Client, message: Message):
         required_url,
         quote=True,
         reply_markup=reply_markup,
-        disable_web_page_preview=True,
+        link_preview_options=LinkPreviewOptions(
+            is_disabled=True
+        )
     )

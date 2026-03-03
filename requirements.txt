@@ -1,10 +1,10 @@
 # Pyrogram
-pyrotgfork==2.1.33.8
-PyTgCrypto==1.2.7
+pyrotgfork==2.2.20
+PyTgCrypto==1.2.12
 
 # GET / POST network requests
 asyncio==3.4.3
-aiohttp==3.9.4
+aiohttp==3.13.3
 
 # scrapping tools [not used anywhere]
 beautifulsoup4==4.9.1
@@ -30,6 +30,3 @@ oauth2client==4.1.3
 
 # for reading .env files
 python-dotenv==0.10
-
-# for interacting with te.legra.ph
-telegraph==2.2.0

@@ -5,7 +5,7 @@ Syntax: .google query
 
 import aiohttp
 from pyrogram import Client, filters
-from pyrogram.types import Message, InputMediaDocument
+from pyrogram.types import Message, InputMediaDocument, LinkPreviewOptions
 from pyrobot import Config, COMMAND_HAND_LER
 from pyrobot.helper_functions.cust_p_filters import sudo_filter
 
@@ -43,7 +43,9 @@ async def google_(_, message: Message):
     await message.reply_text(
         text,
         quote=True,
-        disable_web_page_preview=True
+        link_preview_options=LinkPreviewOptions(
+            is_disabled=True
+        )
     )
 
 
@@ -81,7 +83,8 @@ async def google_image_(_, message: Message):
         url_list.append(
             InputMediaDocument(
                 media=image_url,
-                caption=caption
+                caption=caption,
+                disable_content_type_detection=True
             )
         )
     await message.reply_media_group(
