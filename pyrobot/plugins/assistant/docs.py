@@ -72,7 +72,8 @@ class Result:
                     f"`{full}`\n",
                     link_preview_options=LinkPreviewOptions(
                         url=doc_url,
-                        show_above_text=True
+                        show_above_text=True,
+                        manual=True,
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
@@ -96,7 +97,8 @@ class Result:
                     f"`{full}`\n",
                     link_preview_options=LinkPreviewOptions(
                         url=doc_url,
-                        show_above_text=True
+                        show_above_text=True,
+                        manual=True,
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
@@ -120,7 +122,8 @@ class Result:
                     f"`{full}`",
                     link_preview_options=LinkPreviewOptions(
                         url=doc_url,
-                        show_above_text=True
+                        show_above_text=True,
+                        manual=True,
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
@@ -141,7 +144,8 @@ class Result:
                     f"[{item.__class__.__name__}]({doc_url}) - Filter",
                     link_preview_options=LinkPreviewOptions(
                         url=doc_url,
-                        show_above_text=True
+                        show_above_text=True,
+                        manual=True,
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
@@ -163,7 +167,8 @@ class Result:
                     f"[{item.__qualname__}]({doc_url}) - Bound Method",
                     link_preview_options=LinkPreviewOptions(
                         url=doc_url,
-                        show_above_text=True
+                        show_above_text=True,
+                        manual=True,
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
@@ -188,7 +193,8 @@ class Result:
                     f"`Schema`: **Layer {layer}**",
                     link_preview_options=LinkPreviewOptions(
                         url=path,
-                        show_above_text=True
+                        show_above_text=True,
+                        manual=True,
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
@@ -213,7 +219,8 @@ class Result:
                     f"`Schema`: **Layer {layer}**",
                     link_preview_options=LinkPreviewOptions(
                         url=path,
-                        show_above_text=True
+                        show_above_text=True,
+                        manual=True,
                     ),
                     parse_mode=ParseMode.MARKDOWN
                 ),
@@ -368,7 +375,8 @@ DEFAULT_RESULTS = [
         input_message_content=InputTextMessageContent(
             HELP,
             link_preview_options=LinkPreviewOptions(
-                is_disabled=True
+                is_disabled=True,
+                manual=True,
             ),
             parse_mode=ParseMode.MARKDOWN
         ),
@@ -392,7 +400,8 @@ DEFAULT_RESULTS = [
             f"[Quick Start](https://telegramplayground.github.io/pyrogram/intro/quickstart) - Introduction\n\n"
             f"`Quick overview to get you started as fast as possible`",
             link_preview_options=LinkPreviewOptions(
-                is_disabled=True
+                is_disabled=True,
+                manual=True,
             ),
             parse_mode=ParseMode.MARKDOWN
         ),
@@ -406,7 +415,8 @@ DEFAULT_RESULTS = [
             f"[Support](https://docs.pyrogram.org/support-pyrogram) - Meta\n\n"
             f"`Ways to show your appreciation.`",
             link_preview_options=LinkPreviewOptions(
-                is_disabled=True
+                is_disabled=True,
+                manual=True,
             ),
             parse_mode=ParseMode.MARKDOWN
         ),
