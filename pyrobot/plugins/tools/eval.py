@@ -39,10 +39,8 @@ async def eval(client, message):
     sys.stderr = old_stderr
 
     evaluation = ""
-    if exc:
-        evaluation = exc
-    elif stdout or stderr:
-        evaluation = f"{stderr}\n\n{stdout}"
+    if exc or stdout or stderr:
+        evaluation = f"{exc}\n\n{stderr}\n\n{stdout}"
     else:
         evaluation = "Success"
 

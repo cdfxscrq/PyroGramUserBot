@@ -356,7 +356,7 @@ DEFAULT_RESULTS = [
                     InlineKeyboardButton(f"{emoji.BUSTS_IN_SILHOUETTE} Community", url="https://PyroTGFork.t.me/2")
                 ],
                 [
-                    InlineKeyboardButton(f"{emoji.CARD_INDEX_DIVIDERS} GitHub", url="https://github.com/TelegramPlayground/pyrogram"),
+                    InlineKeyboardButton(f"{emoji.CARD_INDEX_DIVIDERS} GitHub", url="https://github.com/TelegramPlayground/PyroTGFork"),
                     InlineKeyboardButton(f"{emoji.OPEN_BOOK} Docs", url="https://telegramplayground.github.io/pyrogram/releases/changes-in-this-fork.html")
                 ],
                 # [
